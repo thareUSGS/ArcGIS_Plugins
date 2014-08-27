@@ -204,9 +204,9 @@ class CTX_CreateMosaic(object):
             arcpy.AddMessage('%s INPUT features selected' % str(theInCount))
 
         theCount = int(arcpy.GetCount_management(inFeatures).getOutput(0))
-        if (theCount > 100):
-            print('\nOnly 100 features allowed to be selected. Please select less images and rerun\n')
-            messages.addErrorMessage('\nOnly 100 features allowed to be selected. Please select less images and rerun\n')
+        if (theCount > 500):
+            print('\nOnly 500 features allowed to be selected. Please select less images and rerun\n')
+            messages.addErrorMessage('\nOnly 500 features allowed to be selected. Please select less images and rerun\n')
             raise arcpy.ExecuteError
 
         cursor = arcpy.da.SearchCursor(inFeatures, [edr_fieldName, label_fieldName])
@@ -238,8 +238,8 @@ class CTX_CreateMosaic(object):
             rozd = find_char(HdrUrl,ch)
             outputHeader = HdrUrl[rozd:] # name of ISIS label without html path
 
-            outputImage = outputPath + "\\"+ outputImage
-            outputHdr =  outputPath  + "\\"+ outputHeader
+            outputImage = os.path.join(outputPath,outputImage)
+            outputHdr = os.path.join(outputPath,outputHeader)
 
             site = urllib.urlopen(HdrUrl)
             meta = site.info()
