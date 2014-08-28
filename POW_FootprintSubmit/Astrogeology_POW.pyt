@@ -1,3 +1,4 @@
+# -*- coding: cp1252 -*-
 import arcpy
 import webbrowser
 
@@ -97,62 +98,120 @@ class SubmitToPOW(object):
         #print(theURLs)
         arcpy.AddMessage(theURLs)
 
+        htmlTop = '''
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="projection, cloud, map-a-planet, coordinates, planet, mapping, usgs, nasa, cartography, astrogeology, mars, moon, jupiter, saturn, voyager, cassini" />
+  <meta name="description" content="USGS Astrogeology Cloud Imagery Processing" />
+  <title>Imagery Processing Cloud - USGS Astrogeology Science Center - Submit page for Map Projection On the Web</title>
+  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <!-- should use a dynamic stylesheet based on what service/referer -->
+  <link rel="stylesheet" href="http://astrocloud.wr.usgs.gov/css/jobs.css" type="text/css" />
+<!--[if IE]>
+  <link rel="stylesheet" href="http://astrocloud.wr.usgs.gov/css/ie.css" type="text/css" />  
+<![endif]-->
+</head>
+
+<body>
+  <div id="header">
+    <a href="http://www.usgs.gov">
+      <img class="logo" height="70" width="180" src="http://astrocloud.wr.usgs.gov/images/usgs_logo_main_2x.png" alt="USGS: Science for a Changing World"/>
+    </a>
+    <h1 id="title">Map Projection On the Web</h1>
+        </div>
+  <div id="wrapper">
+    <div id="nav">
+      <div id="username"></div>
+      <ul class="links">
+        <li><a href="index.php?view=login">Login</a></li>
+        <li><a href="index.php?view=reset">Reset Your Password</a></li>
+        <li><a href="index.php?view=edituser&act=request">Request User Account</a></li>
+        <li><a href="http://pilot.wr.usgs.gov" target="_blank">Search Pilot</a></li>
+      </ul>
+    </div>
+       <div style="background-image:url(http://astrocloud.wr.usgs.gov/images/pow-workflow.png)" class="banner"></div>
+       <div class="tabs">
+         <a href="index.php?view=pow" class="active">Map Projection on the Web</a>
+       </div>
+    <div id="content">
+<div class="main-content">
+'''
+
+
+        htmlBottom = '''
+  <!--
+  <h2>Integrated Tools</h2>
+  <ul class="def-list">
+    <li><span class="label"><a href="http://isis.astrogeology.usgs.gov/UserDocs">ISIS3</a></span> - ISIS (version 3) is an image processing software package. The focus of the software is to manipulate imagery collected by current and past NASA planetary missions sent to Mars, Jupiter, Saturn, and other solar system bodies.
+    <li><span class="label"><a href="http://pilot.wr.usgs.gov">PILOT and UPC</a></span> – The Planetary Image LOcator Tool is a web based search tool for the Unified Planetary Coordinate (UPC) database of the Planetary Data System. PILOT features SPICE-corrected image locations and searching capabilities using a navigable map, user selectable image constraints (e.g., incidence angle, solar longitude, pixel resolution and phase angle), and facilitates bulk downloads and/or image processing using POW.
+    <li><span class="label"><a href="http://www.gdal.org">GDAL</a></span> – Geospatial Data Abstraction Library is used for conversion from ISIS (version 3) format to GeoTiff, GeoJpeg2000, Jpeg, and PNG. Conversion to PDS format is handled by ISIS.
+  </ul>
+  <h2>References</h2>
+  <ul class="def-list">
+    <li><span class="label" style="color:black;">POW</span>
+    <ul class="def-list">
+      <li>Hare, T.M., et at., (2013), LPSC XLIV, abstract <a href="http://www.lpi.usra.edu/meetings/lpsc2013/pdf/2068.pdf">2068</a></li>
+    </ul>
+    <li><span class="label" style="color:black;">ISIS</span>
+    <ul class="def-list">
+      <li>Keszthelyi, L., et al., 2013, LPSC XLIV, abstract <a href="http://www.lpi.usra.edu/meetings/lpsc2013/pdf/2546.pdf">2546</a></li>
+      <li>Sides S. et al., 2013, LPSC XLIV, abstract <a href="http://www.lpi.usra.edu/meetings/lpsc2013/pdf/1746.pdf">1746</a></li>
+    </ul>
+    <li><span class="label" style="color:black;">GDAL</span>
+    <ul class="def-list">
+      <li>Geospatial Data Abstraction Library <a href="http://www.gdal.org">GDAL</a></li>
+    </ul>
+    <li><span class="label" style="color:black;">PILOT</span>
+    <ul class="def-list">
+      <li>Bailen, M.S., et al, (2013), LPSC XLIV, abstract <a href="http://www.lpi.usra.edu/meetings/lpsc2013/pdf/2246.pdf">2246</a></li>
+    </ul>
+    <li><span class="label" style="color:black;">PDS</span>
+    <ul class="def-list">
+      <li>Planetary Data System Standards Reference, <a href="http://pds.nasa.gov/tools/standards-reference.shtml">v. 3.8, JPL D-7669, Part 2.</a></li>
+    </ul>
+    <li><span class="label" style="color:black;">UPC</span>
+    <ul class="def-list">
+      <li>Akins, S. W., et al, (2009), LPSC XL, abstract <a href="http://www.lpi.usra.edu/meetings/lpsc2009/pdf/2002.pdf">2002</a></li>
+    </ul>
+  </ul>
+  -->
+</div>
+</div>
+<div id="footer">
+        <div class="site-links">
+          <a href="http://astrocloud.wr.usgs.gov/">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+          <a href="mailto:astroweb@usgs.gov" >contact</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+          <a href="http://isis.astrogeology.usgs.gov/IsisSupport/viewforum.php?f=52" target="_blank">support</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+          <a href="http://astrodocs.wr.usgs.gov/index.php/PILOT:Main" target="_blank">help</a>
+        </div>
+        <div class="gov-links">
+          <a href="http://www.doi.gov" target=_top>U.S. Department of the Interior</a> &nbsp;|&nbsp;
+          <a href="http://www.usgs.gov" target=_top>U.S. Geological Survey</a> 
+        </div>
+      </div>
+  </body>
+</html>
+'''
+
         with open("submit_POWfromArcMap.html", "w") as f:
-           f.write(r'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">')
-           f.write(r'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">')
-           f.write(r'<head>')
-           f.write(r'  <meta http-equiv="content-type" content="text/html; charset=utf-8" />')
-           f.write(r'</head>')
-           f.write(r'<body>')
-           f.write(r'   <h2 id="title">Submit page for Map Projection On the Web</h1>')
+           f.write(htmlTop)
            f.write(r'<div id="jobdetails">')
            f.write(r'  <form action="http://astrocloud.wr.usgs.gov/index.php" method="post">')
            f.write(r'    <input type="hidden" name="view" value="addjob"/>')
            f.write(r'    <input type="hidden" name="type" value="POW"/>')
            formURLs = '    <input type="hidden" name="urls" value="%s" />' % theURLs
-           #formURLs = '    <textarea name="urls" value="%s" rows="10" cols="100"></textarea>' % theURLs
            f.write(formURLs)
-           #f.write(r'    <p>POW File URLs</p>')
-           #f.write(r'    <textarea name="urls" rows="6" cols="100"></textarea>')
-           #f.write(r'    <p>Target</p>')
            formTarget = '    <input type="hidden" name="target" value="%s" />' % theTarget 
            f.write(formTarget)
-           #f.write(r'    <input type="hidden" name="target" value="Mars" />')
            f.write(r'    <input type="submit" value="Submit"/>')
-           #f.write(r'    <input type="hidden" name="__ncforminfo" value="rHjB90aZJn6UB6i_mcmeng1BEd1LHiTuwRUgh7jcYqWJwsER_qUO00PBAQwj05VKp6auERS67nZ6vBH-QDufrNWwbU9r6iJR"></form>')
+           f.write('<br><b>Note:</b> Before submission make sure you are logged in. If this is your first time on POW you will need to first request a user account (above).\n<br>')
            f.write(r'</div>')
-           f.write('<br><b>Images:</b>\n<br>')
+           f.write('<br><h2>Images to be submitted:</h2>\n<br>')
            f.write('%s' % theURLs.replace(",","<br>\n"))
-           f.write(r'</body>')
-           f.write(r'</html>')        
+           f.write('<br>\n<br>')
+           f.write(htmlBottom)
         webbrowser.open("submit_POWfromArcMap.html")
 
-#no need to post anything just building page above.
-#     
-#        payload = { 'urls': theURLlist, 
-#           'target': 'MARS',
-#            'view': 'addjob',
-#            'type': 'POW' } #,
-#            #'submit': 'Submit' }
-#        params = urllib.urlencode(payload)
-#        POWurl = r'file::/Programming/python/POW/submit_results.html'
-        #POWurl = r'http://astrocloud.wr.usgs.gov/index.php' #?view=pickfiles'
-
-#Module URLLIB
-#        results = urllib2.urlopen(POWurl, params)
-#        with open("results.html", "w") as f:
-#            f.write(results.read())
-#        webbrowser.open("results.html")
-
-#Module Requests
-#        with requests.session() as s:
-#            resp = s.get(POWurl)
-#            payload['survey_session_id'] = get_session_id(resp)
-#            response_post = s.post(POWurl, data=payload)
-#            print response_post.text
-#            arcpy.AddMessage(response_post.text)
-
-#        r = requests.post(POWurl, payload)
-#        with open("requests_results.html", "w") as f:
-#            f.write(r.content)
-#        webbrowser.open("requests_results.html")
