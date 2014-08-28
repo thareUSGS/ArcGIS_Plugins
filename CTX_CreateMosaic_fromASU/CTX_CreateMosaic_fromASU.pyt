@@ -244,12 +244,12 @@ class CTX_CreateMosaic(object):
             site = urllib.urlopen(HdrUrl)
             meta = site.info()
             #arcpy.AddMessage(str(meta))
-            urlExists = str(meta).find("Content-Length:")
-            if urlExists < 0:
+            urlExists = str(meta).find("Age: 0")
+            if urlExists > -1:
                 show_msg = "URL does not exist, cannot download: " + HdrUrl
                 arcpy.AddMessage(show_msg)
                 aCnt = aCnt + 1
-                break
+                continue
 
             #download ISIS Header
             try:
@@ -266,7 +266,6 @@ class CTX_CreateMosaic(object):
             if arcpy.Exists(outputImage):
                 show_msg = "\nFile already exists, skipping: " + outputImage
                 arcpy.AddMessage(show_msg)
-                aCnt = aCnt + 1
             else:
                 show_msg = "URL:  " + UrlPath
                 arcpy.AddMessage(show_msg)
@@ -277,6 +276,7 @@ class CTX_CreateMosaic(object):
                 except:
                      show_msg = "WebSite issues for Jp2, cannot download: " + outputImage + " URL: " + UrlPath
                      arcpy.AddMessage(show_msg)
+            aCnt = aCnt + 1
                 
 
         os.chdir(outputPath)
