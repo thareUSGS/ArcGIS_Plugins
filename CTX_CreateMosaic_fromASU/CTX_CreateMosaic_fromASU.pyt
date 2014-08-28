@@ -244,12 +244,12 @@ class CTX_CreateMosaic(object):
             site = urllib.urlopen(HdrUrl)
             meta = site.info()
             #arcpy.AddMessage(str(meta))
-            urlExists = str(meta).find("Content-Length:")
-            if urlExists < 0:
+            urlExists = str(meta).find("Age: 0")
+            if urlExists > -1:
                 show_msg = "URL does not exist, cannot download: " + HdrUrl
                 arcpy.AddMessage(show_msg)
                 aCnt = aCnt + 1
-                break
+                continue
 
             #download ISIS Header
             try:
