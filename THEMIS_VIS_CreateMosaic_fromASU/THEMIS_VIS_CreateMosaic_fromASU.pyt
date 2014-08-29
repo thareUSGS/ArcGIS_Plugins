@@ -19,7 +19,7 @@ class Toolbox(object):
 class ThemisVis_CreateMosaic(object):
     def __init__(self):
         self.label       = "THEMIS VIS Mosaic from ASU toolbox"
-        self.description = "Download ISIS2 Cubes for TEHMIS VIS images from ASU"
+        self.description = "Download ISIS2 Cubes for THEMIS VIS images from ASU and create and Mosiac Datatype (optional)"
  
     def getParameterInfo(self):
         #Define parameter definitions
@@ -60,7 +60,26 @@ class ThemisVis_CreateMosaic(object):
             direction="Input")
         OutputPath.value = ""
 
-        parameters = [in_features, edr_field, label_field, OutputPath]
+        # Ouput Mosaic Name
+        MosaicName = arcpy.Parameter(
+            displayName="Mosaic Name",
+            name="MosaicName",
+            datatype="GPString",
+            parameterType="Optional",
+            direction="Input")
+        MosaicName.value = ""
+
+        # Mosaic Footprint Shrink Distance
+        ShrinkDistance = arcpy.Parameter(
+            displayName="Footprint Shrink Distance (m)",
+            name="ShrinkDistance",
+            datatype="GPLong",
+            parameterType="Optional",
+            direction="Input")
+        ShrinkDistance.value = 0
+
+
+        parameters = [in_features, edr_field, label_field, OutputPath,MosaicName,ShrinkDistance]
         return parameters
 
     def isLicensed(self): #optional
@@ -80,7 +99,9 @@ class ThemisVis_CreateMosaic(object):
         edr_fieldName = parameters[1].valueAsText
         label_fieldName = parameters[2].valueAsText
         outputPath = parameters[3].valueAsText
-        
+        outputMosaicName = parameters[4].valueAsText
+        ShrinkDist = parameters[5].valueAsText
+
         try:
             desc = arcpy.Describe(inFeatures)
             theInCount = len(desc.fidSet.split(";"))
@@ -127,7 +148,7 @@ class ThemisVis_CreateMosaic(object):
             meta = site.info()
             #arcpy.AddMessage(str(meta))
             urlExists = str(meta).find("Age: 0")
-            if urlExists > -1:
+            if urlExists < 0:
                 show_msg = "URL does not exist, cannot download: " + UrlPath
                 arcpy.AddMessage(show_msg)
                 aCnt = aCnt + 1
@@ -149,9 +170,47 @@ class ThemisVis_CreateMosaic(object):
                      arcpy.AddMessage(show_msg)
             aCnt = aCnt + 1                
 
-        #os.chdir(outputPath)
-        #sysString = "running function ctx_project"
-        #arcpy.AddMessage(sysString)
-        #themisVis_project()
-        #os.system(sysString)
+        ##############################
+        ## Start Mosaic Creation
+        ##############################
+        if outputMosaicName != "":
 
+            #Define Coordinate system
+            Coordsystem = 'PROJCS["Mars2000 Equidistant Cylindrical clon0",GEOGCS["GCS_Mars_2000_Sphere",DATUM["D_Mars_2000_Sphere",SPHEROID["Mars_2000_Sphere_IAU_IAG",3396190.0,0.0]],PRIMEM["Reference_Meridian",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Equidistant_Cylindrical"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],PARAMETER["Standard_Parallel_1",0.0],UNIT["Meter",1.0]]'
+            mosaicgdb = os.path.join(outputPath,outputMosaicName + ".gdb")
+
+            # Process: Create File GDB
+            arcpy.CreateFileGDB_management(outputPath, outputMosaicName + ".gdb")
+            arcpy.AddMessage("Create File GDB")
+
+            # Process: Create Mosaic Dataset
+            arcpy.CreateMosaicDataset_management(mosaicgdb, outputMosaicName, Coordsystem, "1", "16_BIT_SIGNED", "NONE", "")
+            arcpy.AddMessage("Created Mosaic Dataset")
+
+            # Process: Add Rasters To Mosaic Dataset
+            theMosaic = mosaicgdb +"\\"+ outputMosaicName
+            arcpy.AddMessage("Adding Rasters To Mosaic Dataset")
+            arcpy.AddRastersToMosaicDataset_management(theMosaic, "Raster Dataset", outputPath, "UPDATE_CELL_SIZES", "UPDATE_BOUNDARY", "NO_OVERVIEWS", "", "0", "1500", "", "*.CUB", "NO_SUBFOLDERS", "EXCLUDE_DUPLICATES", "NO_PYRAMIDS", "CALCULATE_STATISTICS", "NO_THUMBNAILS", "", "NO_FORCE_SPATIAL_REFERENCE")
+
+            # Process: Define Mosaic Dataset NoData
+            arcpy.DefineMosaicDatasetNoData_management(theMosaic, "1", "BAND_1 -32768", "", "", "")
+
+            # Process: Set Mosaic Dataset Properties
+            arcpy.SetMosaicDatasetProperties_management(theMosaic, "", "", "None;LZ77;LERC", "LERC", "75", "0", "BILINEAR", "CLIP", "FOOTPRINTS_MAY_CONTAIN_NODATA", "CLIP", "NOT_APPLY", "", "NONE", "Center;NorthWest;LockRaster;ByAttribute;Nadir;Viewpoint;Seamline;None", "Seamline", "", "", "ASCENDING", "BLEND", "10", "600", "300", "1000", "0.8", "", "FULL", "", "DISABLED", "", "", "", "", "20", "1000", "GENERIC", "1")
+
+            # Process: BuildFootprints_1
+            arcpy.BuildFootprints_management(theMosaic, "", "RADIOMETRY", "", "", "100", "0", "NO_MAINTAIN_EDGES", "SKIP_DERIVED_IMAGES", "NO_BOUNDARY", "2000", "100", "NONE", "", "20", "0.05")
+
+            # Process: BuildFootprints_2
+            if not ShrinkDist.isdigit():
+                ShrinkDist = "0"
+            arcpy.AddMessage("Building Footprints")
+            arcpy.BuildFootprints_management(theMosaic, "", "NONE", "", "", "100", ShrinkDist, "NO_MAINTAIN_EDGES", "SKIP_DERIVED_IMAGES", "UPDATE_BOUNDARY", "2000", "100", "NONE", "", "20", "0.05")
+
+            # Process: Calculate statistics
+            arcpy.AddMessage("Calculate statistics")
+            arcpy.CalculateStatistics_management(theMosaic, "", "", "-32768", "OVERWRITE")
+
+            # Process: Build Overviews
+            arcpy.AddMessage("Build Overviews")
+            arcpy.BuildOverviews_management(theMosaic, "", "DEFINE_MISSING_TILES", "NO_GENERATE_OVERVIEWS", "#", "#")
