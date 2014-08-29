@@ -166,7 +166,16 @@ class CTX_CreateMosaic(object):
             direction="Input")
         OutputPath.value = ""
 
-        parameters = [in_features, edr_field, label_field, OutputPath]
+        # Ouput Completed Flag
+        CompleteFlag = arcpy.Parameter(
+            displayName="CompletedFlag",
+            name="CompletedFlag",
+            datatype="GPString",
+            parameterType="Derived",
+            direction="Output")
+
+
+        parameters = [in_features, edr_field, label_field, OutputPath, CompleteFlag]
         return parameters
 
     def isLicensed(self): #optional
@@ -284,4 +293,5 @@ class CTX_CreateMosaic(object):
         arcpy.AddMessage(sysString)
         ctx_project()
         #os.system(sysString)
-
+        #arcpy.SetParameterAsText(4, "true")
+        
