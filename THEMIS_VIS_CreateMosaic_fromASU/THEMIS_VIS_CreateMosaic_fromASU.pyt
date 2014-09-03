@@ -173,7 +173,7 @@ class ThemisVis_CreateMosaic(object):
         ##############################
         ## Start Mosaic Creation
         ##############################
-        if outputMosaicName != "":
+        if outputMosaicName:
 
             #Define Coordinate system
             Coordsystem = 'PROJCS["Mars2000 Equidistant Cylindrical clon0",GEOGCS["GCS_Mars_2000_Sphere",DATUM["D_Mars_2000_Sphere",SPHEROID["Mars_2000_Sphere_IAU_IAG",3396190.0,0.0]],PRIMEM["Reference_Meridian",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Equidistant_Cylindrical"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],PARAMETER["Standard_Parallel_1",0.0],UNIT["Meter",1.0]]'
@@ -212,5 +212,10 @@ class ThemisVis_CreateMosaic(object):
             arcpy.CalculateStatistics_management(theMosaic, "", "", "-32768", "OVERWRITE")
 
             # Process: Build Overviews
-            arcpy.AddMessage("Build Overviews")
-            arcpy.BuildOverviews_management(theMosaic, "", "DEFINE_MISSING_TILES", "NO_GENERATE_OVERVIEWS", "#", "#")
+            #arcpy.AddMessage("Build Overviews")
+            #arcpy.BuildOverviews_management(theMosaic, "", "DEFINE_MISSING_TILES", "NO_GENERATE_OVERVIEWS", "#", "#")
+            
+            arcpy.AddMessage("Mosaic created. Process complete.")
+        else:
+            arcpy.AddMessage("No Mosaic Name specified, skipping mosaic creation. Process complete.")
+        
