@@ -1,5 +1,6 @@
 import arcpy
 import urllib, os, glob, shutil, string
+from time import sleep
 
 def find_char(shp, ch):
     index = 0 ; loc = 0
@@ -286,6 +287,7 @@ class CTX_CreateMosaic(object):
                 show_msg = "Downloading Header to:  " + outputHeader + " please wait..."
                 arcpy.AddMessage(show_msg)
                 h = urllib.urlretrieve(HdrUrl, outputHdr)
+                sleep(0.5)
             except:
                 show_msg = "ISIS Header URL does not exist, cannot download: " + outputHeader + " URL: " + HdrUrl
                 arcpy.AddMessage(show_msg)
@@ -299,6 +301,7 @@ class CTX_CreateMosaic(object):
                 arcpy.AddMessage(show_msg)
                 show_msg = "Downloading file to:  " + outputImage + " please wait..."
                 arcpy.AddMessage(show_msg)
+                sleep(1.0)
                 try:
                     h = urllib.urlretrieve(UrlPath, outputImage)
                 except:

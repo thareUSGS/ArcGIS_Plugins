@@ -1,5 +1,6 @@
 import arcpy
 import urllib, os, glob, shutil, string
+from time import sleep
 
 def find_char(shp, ch):
     index = 0 ; loc = 0
@@ -163,6 +164,7 @@ class ThemisVis_CreateMosaic(object):
                 arcpy.AddMessage(show_msg)
                 show_msg = "Downloading file to:  " + outputImage + " please wait..."
                 arcpy.AddMessage(show_msg)
+                sleep(1)
                 try:
                     h = urllib.urlretrieve(UrlPath, outputImage)
                 except:
