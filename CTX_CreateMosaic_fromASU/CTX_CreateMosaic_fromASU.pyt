@@ -319,7 +319,7 @@ class CTX_CreateMosaic(object):
         #arcpy.SetParameterAsText(4, "true")
 
         ##############################
-        ## Start Mosaic Creation
+        ## Start Mosaic Creation if requested
         ##############################
         if outputMosaicName:
 
