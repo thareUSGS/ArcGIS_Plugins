@@ -233,9 +233,9 @@ class CTX_CreateMosaic(object):
             arcpy.AddMessage('%s INPUT features selected' % str(theInCount))
 
         theCount = int(arcpy.GetCount_management(inFeatures).getOutput(0))
-        if (theCount > 500):
-            print('\nOnly 500 features allowed to be selected. Please select less images and rerun\n')
-            messages.addErrorMessage('\nOnly 500 features allowed to be selected. Please select less images and rerun\n')
+        if (theCount > 1000):
+            print('\nOnly 1000 features allowed to be selected. Please select less images and rerun\n')
+            messages.addErrorMessage('\nOnly 1000 features allowed to be selected. Please select less images and rerun\n')
             raise arcpy.ExecuteError
 
         cursor = arcpy.da.SearchCursor(inFeatures, [edr_fieldName, label_fieldName])
