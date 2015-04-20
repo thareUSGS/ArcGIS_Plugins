@@ -28,7 +28,7 @@ def ctx_project():
           # defines the correct pathnames depending on projection
           if os.path.exists( basenames+'.scyl.isis.hdr'):
              fileName=basenames+'.scyl.isis.hdr'
-          else: # assume polar
+          if os.path.exists( basenames+'.ps.isis.hdr'): # assume polar
              fileName=basenames+'.ps.isis.hdr'
 
           # loop over header to find parameters
