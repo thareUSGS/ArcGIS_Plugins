@@ -1,6 +1,7 @@
-# -*- coding: cp1252 -*-
+ï»¿# -*- coding: cp1252 -*-
 import arcpy
 import webbrowser
+import string
 
 class Toolbox(object):
     def __init__(self):
@@ -30,7 +31,7 @@ class SubmitToPOW(object):
 
         # EDR Field parameter
         edr_field = arcpy.Parameter(
-            displayName="EDR Source Location Field",
+            displayName="EDR Source Location Field (type: 'edr_source' for PILOT footprints, 'LabelURL' for ODE)",
             name="edr_source",
             datatype="Field",
             parameterType="Required",
@@ -39,7 +40,7 @@ class SubmitToPOW(object):
         
         # Target Field parameter
         target_field = arcpy.Parameter(
-            displayName="Planetary Target",
+            displayName="Planetary Target (type: 'targetname' for PILOT footprints, 'target' for ODE)",
             name="targetname",
             datatype="Field",
             parameterType="Required",
@@ -91,11 +92,16 @@ class SubmitToPOW(object):
         cursor = arcpy.da.SearchCursor(inFeatures, [edr_fieldName, target_fieldName])
         theURLlist = []
         for row in cursor:
-            theURLlist.append(row[0])
-        #theURLs = '\n'.join(theURLlist)
+            theURL = row[0]
+            arcpy.AddMessage(theURL)
+            # This helps with ODE footprints - only CTX, MOC NA supported!
+            theURL = theURL.replace("pds-imaging.jpl.nasa.gov/data/mro/mars_reconnaissance_orbiter/ctx", \
+                                    "pdsimage.wr.usgs.gov/Missions/Mars_Reconnaissance_Orbiter/CTX")
+            theURL = theURL.replace("pdsimg.jpl.nasa.gov/data/mgs-m-moc-na_wa-2-sdp-l0-v1.0", \
+                                    "pdsimage.wr.usgs.gov/Missions/Mars_Global_Surveyor/MOC")
+            theURLlist.append(theURL)
         theURLs = ','.join(theURLlist)
         theTarget = row[1]
-        #print(theURLs)
         arcpy.AddMessage(theURLs)
 
         htmlTop = '''
@@ -114,7 +120,6 @@ class SubmitToPOW(object):
   <link rel="stylesheet" href="http://astrocloud.wr.usgs.gov/css/ie.css" type="text/css" />  
 <![endif]-->
 </head>
-
 <body>
   <div id="header">
     <a href="http://www.usgs.gov">
@@ -147,8 +152,8 @@ class SubmitToPOW(object):
   <h2>Integrated Tools</h2>
   <ul class="def-list">
     <li><span class="label"><a href="http://isis.astrogeology.usgs.gov/UserDocs">ISIS3</a></span> - ISIS (version 3) is an image processing software package. The focus of the software is to manipulate imagery collected by current and past NASA planetary missions sent to Mars, Jupiter, Saturn, and other solar system bodies.
-    <li><span class="label"><a href="http://pilot.wr.usgs.gov">PILOT and UPC</a></span> – The Planetary Image LOcator Tool is a web based search tool for the Unified Planetary Coordinate (UPC) database of the Planetary Data System. PILOT features SPICE-corrected image locations and searching capabilities using a navigable map, user selectable image constraints (e.g., incidence angle, solar longitude, pixel resolution and phase angle), and facilitates bulk downloads and/or image processing using POW.
-    <li><span class="label"><a href="http://www.gdal.org">GDAL</a></span> – Geospatial Data Abstraction Library is used for conversion from ISIS (version 3) format to GeoTiff, GeoJpeg2000, Jpeg, and PNG. Conversion to PDS format is handled by ISIS.
+    <li><span class="label"><a href="http://pilot.wr.usgs.gov">PILOT and UPC</a></span> â€“ The Planetary Image LOcator Tool is a web based search tool for the Unified Planetary Coordinate (UPC) database of the Planetary Data System. PILOT features SPICE-corrected image locations and searching capabilities using a navigable map, user selectable image constraints (e.g., incidence angle, solar longitude, pixel resolution and phase angle), and facilitates bulk downloads and/or image processing using POW.
+    <li><span class="label"><a href="http://www.gdal.org">GDAL</a></span> â€“ Geospatial Data Abstraction Library is used for conversion from ISIS (version 3) format to GeoTiff, GeoJpeg2000, Jpeg, and PNG. Conversion to PDS format is handled by ISIS.
   </ul>
   <h2>References</h2>
   <ul class="def-list">
@@ -224,4 +229,3 @@ Once you are verified, come back to this page and click the Submit button.<br>
            f.write('<br>\n<br>')
            f.write(htmlBottom)
         webbrowser.open("submit_POWfromArcMap.html")
-
