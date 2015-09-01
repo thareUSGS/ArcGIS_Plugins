@@ -126,7 +126,7 @@ class Toolbox(object):
 class CTX_CreateMosaic(object):
     def __init__(self):
         self.label       = "CTX Create Mosaic from ASU toolbox"
-        self.description = "Create a CTX Mosaic from ASU Jpeg2000 and ISIS headers. ses Footprints from GeoScience Node: http://ode.rsl.wustl.edu/mars/datafile/derived_products/coverageshapefiles/mars/mro/ctx/edr/mars_mro_ctx_edr_c0a.zip"
+        self.description = "Create a CTX Mosaic from ASU Jpeg2000 and ISIS headers. ses footprints from GeoScience Node: http://ode.rsl.wustl.edu/mars/datafile/derived_products/coverageshapefiles/mars/mro/ctx/edr/mars_mro_ctx_edr_c0a.zip"
  
     def getParameterInfo(self):
         #Define parameter definitions
