@@ -138,7 +138,7 @@ class CTX_CreateMosaic_fromASUgeoJp2(object):
             show_msg =  "\nFeature (" + str(aCnt + 1) + "/" + str(theInCount) + ")"
             arcpy.AddMessage(show_msg)
             
-            UrlPath = "http://image.mars.asu.edu/stream/" + ProductId + ".jp2?image=/mars/images/ctx/" + volumeName + "/prj_full/" + ProductId + ".jp2"
+            UrlPath = "http://image.mars.asu.edu/stream/" + ProductId + ".jp2?image=/mars/images/ctx_new/" + volumeName + "/prj_full/" + ProductId + ".jp2"
             #show_msg =  UrlPath
             #arcpy.AddMessage(show_msg)
             
