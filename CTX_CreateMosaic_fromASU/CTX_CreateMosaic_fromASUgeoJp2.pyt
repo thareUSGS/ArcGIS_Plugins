@@ -1,3 +1,11 @@
+#CTX_CreateMosaic_fromASUgeoJp2.pyt
+#New version which create a CTX Mosaic from new 2015 ASU GeoJpeg2000. 
+#Optionally creates a ArcMap mosaic data type from downloaded images using Equidistant
+#Cylindrical clon=0. No needed for ISIS headers anymore since ASU supports GeoJpeg2000 
+#images now. Uses Footprints from GeoScience Node: 
+#http://ode.rsl.wustl.edu/mars/datafile/derived_products/coverageshapefiles/mars/mro/ctx/edr/mars_mro_ctx_edr_c0a.zip
+#support email: thare@usgs.gov
+
 import arcpy
 import urllib, os, glob, shutil, string
 from time import sleep
