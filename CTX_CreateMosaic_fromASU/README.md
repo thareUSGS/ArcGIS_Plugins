@@ -1,9 +1,12 @@
-CTX_CreateMosaic_fromASU.pyt
-and
-CTX_CreateMosaic_fromASUgeoJp2.pyt
+## CTX_CreateMosaic_fromASUgeoTiff.pyt
+==============
 
+New version which create a CTX Mosaic from new 2017 ASU GeoTiffs. Optionally creates a ArcMap mosaic data type from downloaded images using Equidistant Cylindrical clon=0. Uses Footprints from GeoScience Node: http://ode.rsl.wustl.edu/mars/datafile/derived_products/coverageshapefiles/mars/mro/ctx/edr/mars_mro_ctx_edr_c0a.zip
 
 ==============
+
+Both CTX_CreateMosaic_fromASU.pyt and CTX_CreateMosaic_fromASUgeoJp2.pyt are __now deprcicated__. ASU no longer supports Jpeg2000 files for CTX. They have changed to a compressed GeoTiff.
+
 CTX_CreateMosaic_fromASU.pyt
 * original version which creates a CTX mosaic using ASU's CTX jp2s and isis header. It requires a step to attached the isis header to the jp2 making a geojp2.
 
