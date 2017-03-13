@@ -197,7 +197,7 @@ class CTX_CreateMosaic_fromASUgeoTiff(object):
             arcpy.DefineMosaicDatasetNoData_management(theMosaic, "1", "BAND_1 0", "", "", "NO_COMPOSITE_NODATA")
 
             # Process: Set Mosaic Dataset Properties
-            arcpy.SetMosaicDatasetProperties_management(theMosaic, "4100", "15000", "None;LZ77;JPEG;LERC", "None", "75", "0", "BILINEAR", "CLIP", "FOOTPRINTS_MAY_CONTAIN_NODATA", "CLIP", "NOT_APPLY", "", "NONE", "Center;NorthWest;LockRaster;ByAttribute;Nadir;Viewpoint;Seamline;None", "Seamline", "", "", "ASCENDING", "BLEND", "10", "600", "300", "1000", "0.8", "", "FULL", "", "DISABLED", "", "", "", "", "20", "1000", "GENERIC", "1")
+            arcpy.SetMosaicDatasetProperties_management(theMosaic, "4100", "15000", "None;LZ77;JPEG;LERC", "None", "75", "0", "BILINEAR", "CLIP", "FOOTPRINTS_MAY_CONTAIN_NODATA", "CLIP", "NOT_APPLY", "", "NONE", "Center;NorthWest;LockRaster;ByAttribute;Nadir;Viewpoint;Seamline;None", "None", "", "", "ASCENDING", "BLEND", "10", "600", "300", "1000", "0.8", "", "FULL", "", "DISABLED", "", "", "", "", "20", "1000", "GENERIC", "1")
 
             # Process: BuildFootprints_1
             arcpy.BuildFootprints_management(theMosaic, "", "RADIOMETRY", "1", "255", "10", "0", "NO_MAINTAIN_EDGES", "SKIP_DERIVED_IMAGES", "NO_BOUNDARY", "2000", "100", "NONE", "", "20", "0.05")
