@@ -5,7 +5,7 @@ New version which creates a CTX Mosaic from new 2017 ASU GeoTiffs. Optionally cr
 
 ==============
 
-Both CTX_CreateMosaic_fromASU.pyt and CTX_CreateMosaic_fromASUgeoJp2.pyt are __now depricated__. ASU no longer supports Jpeg2000 files for CTX. They have changed to a compressed GeoTiff with pyramids.
+Both CTX_CreateMosaic_fromASU.pyt and CTX_CreateMosaic_fromASUgeoJp2.pyt are __now deprecated__. ASU no longer supports Jpeg2000 files for CTX. They have changed to a compressed GeoTiff with pyramids.
 
 CTX_CreateMosaic_fromASU.pyt
 * OLD -- original version which creates a CTX mosaic using ASU's CTX jp2s and isis header. It requires a step to attached the isis header to the jp2 making a geojp2.
