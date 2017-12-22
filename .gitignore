@@ -52,3 +52,5 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+CTX_CreateMosaic_fromASU/CTX_CreateMosaic_fromASUgeoTiff.CTX_CreateMosaic_fromASUgeoTiff.pyt.xml
+CTX_CreateMosaic_fromASU/CTX_CreateMosaic_fromASUgeoTiff.pyt.xml
