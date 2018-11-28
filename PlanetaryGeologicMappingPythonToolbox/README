@@ -1,0 +1,5 @@
+An Esri Python Toolbox with tools to automate commmon mapping workflows. Tools include:
+-Merge Files
+-Build Polygons
+-Check Topology
+-Build Geodatabase
