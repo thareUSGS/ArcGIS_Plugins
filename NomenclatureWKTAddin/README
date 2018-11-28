@@ -1,0 +1,1 @@
+Esri Add-in that prints the WKT string of a feature to the ArcMap Python console. Includes options for -180-180 and 0-360 longitude.
